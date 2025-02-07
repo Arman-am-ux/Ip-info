@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Address Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .ip-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .ip-info p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .channel {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .channel a {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .channel a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>আপনার IP ঠিকানা তথ্য</h1>
+
+        <div class="ip-info">
+            <p><strong>আপনার IP ঠিকানা:</strong> <span id="ipAddress">লোড হচ্ছে...</span></p>
+            <p><strong>লোকেশন:</strong> <span id="location">লোড হচ্ছে...</span></p>
+            <p><strong>শহর:</strong> <span id="city">লোড হচ্ছে...</span></p>
+            <p><strong>দেশ:</strong> <span id="country">লোড হচ্ছে...</span></p>
+            <p><strong>ISP:</strong> <span id="isp">লোড হচ্ছে...</span></p>
+        </div>
+
+        <button class="button" onclick="refreshIP()">IP রিফ্রেশ করুন</button>
+
+        <div class="channel">
+            <a href="https://t.me/am_x_x" target="_blank">আমার চ্যানেলে যোগ দিন</a>
+        </div>
+    </div>
+
+    <script>
+        // IP ঠিকানা এবং বিস্তারিত তথ্য সংগ্রহ করার ফাংশন
+        function getIPAddressDetails() {
+            fetch('https://ipinfo.io/json?token=66741a50045ad4')  // এখানে YOUR_API_TOKEN দিয়ে আপনার API টোকেন বসান
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ipAddress').innerText = data.ip;
+                    document.getElementById('location').innerText = data.city + ', ' + data.region + ', ' + data.country;
+                    document.getElementById('city').innerText = data.city;
+                    document.getElementById('country').innerText = data.country;
+                    document.getElementById('isp').innerText = data.org; // ISP বা প্রতিষ্ঠান তথ্য
+                })
+                .catch(error => {
+                    document.getElementById('ipAddress').innerText = 'IP ঠিকানা সংগ্রহে সমস্যা হয়েছে';
+                    document.getElementById('location').innerText = '';
+                    document.getElementById('city').innerText = '';
+                    document.getElementById('country').innerText = '';
+                    document.getElementById('isp').innerText = '';
+                    console.error('IP ঠিকানা তথ্য সংগ্রহে সমস্যা:', error);
+                });
+        }
+
+        // IP ঠিকানা রিফ্রেশ করার ফাংশন
+        function refreshIP() {
+            document.getElementById('ipAddress').innerText = 'লোড হচ্ছে...';
+            document.getElementById('location').innerText = 'লোড হচ্ছে...';
+            document.getElementById('city').innerText = 'লোড হচ্ছে...';
+            document.getElementById('country').innerText = 'লোড হচ্ছে...';
+            document.getElementById('isp').innerText = 'লোড হচ্ছে...';
+            getIPAddressDetails();
+        }
+
+        // পেজ লোড হওয়ার সময় IP ঠিকানা তথ্য সংগ্রহ করা
+        window.onload = getIPAddressDetails;
+    </script>
+
+</body>
+</html>
